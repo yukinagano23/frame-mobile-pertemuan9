@@ -10,13 +10,14 @@ Aplikasi dibangun dengan **Flutter** dan **Material Design 3**. Rancangan antarm
 
 1. [Fitur Utama](#fitur-utama)
 2. [Halaman Aplikasi](#halaman-aplikasi)
-3. [Teknologi yang Digunakan](#teknologi-yang-digunakan)
-4. [State Management](#state-management)
-5. [Struktur Proyek](#struktur-proyek)
-6. [Model Data](#model-data)
-7. [Alur Data](#alur-data)
-8. [Cara Menjalankan](#cara-menjalankan)
-9. [Keterbatasan dan Pengembangan Lanjutan](#keterbatasan-dan-pengembangan-lanjutan)
+3. [Cara Menggunakan Aplikasi](#cara-menggunakan-aplikasi)
+4. [Teknologi yang Digunakan](#teknologi-yang-digunakan)
+5. [State Management](#state-management)
+6. [Struktur Proyek](#struktur-proyek)
+7. [Model Data](#model-data)
+8. [Alur Data](#alur-data)
+9. [Cara Menjalankan](#cara-menjalankan)
+10. [Keterbatasan dan Pengembangan Lanjutan](#keterbatasan-dan-pengembangan-lanjutan)
 
 ---
 
@@ -67,6 +68,89 @@ Jika pencarian tidak menemukan hasil, tampil pesan "Barang tidak ditemukan".
 - Jika nama kosong, kolom berubah merah dan menampilkan pesan "Nama barang wajib diisi".
 
 ---
+
+## Cara Menggunakan Aplikasi
+ 
+### 1. Melihat daftar stok
+1. Buka aplikasi. Halaman **Daftar Stok** langsung tampil.
+2. Lihat dua kartu di bagian atas: **Total Barang** menunjukkan jumlah seluruh barang, dan **Stok Menipis** menunjukkan jumlah barang yang stoknya di bawah batas minimum.
+3. Baca daftar barang di bawahnya. Setiap kartu memuat nama, satuan, batas minimum, dan jumlah stok di sisi kanan.
+**Cara membaca indikator warna:**
+ 
+| Tampilan | Arti |
+|---|---|
+| Badge merah **"Stok Menipis"**, angka stok merah, garis merah di kiri kartu | Stok berada di bawah batas minimum. Segera restok. |
+| Angka stok hijau, tanpa badge | Stok masih aman. |
+ 
+### 2. Mencari barang
+Ketik nama barang di kolom **"Cari barang"** di bagian atas. Daftar akan menyaring otomatis. Jika tidak ada yang cocok, muncul pesan "Barang tidak ditemukan".
+ 
+### 3. Menampilkan hanya barang yang stoknya menipis
+1. Ketuk chip **Stok Menipis (n)** di bawah kartu ringkasan.
+2. Daftar hanya menampilkan barang yang stoknya di bawah batas minimum.
+3. Ketuk chip **Semua** untuk kembali melihat seluruh barang.
+Jika tidak ada barang yang menipis, akan muncul pesan **"Semua stok aman 🎉"**.
+ 
+### 4. Menambah barang baru
+1. Di halaman Daftar Stok, ketuk tombol **+ Tambah Barang** di kanan bawah.
+2. Isi form:
+   - **Nama Barang** (wajib). Contoh: `Minyak Goreng Bimoli 1L`.
+   - **Satuan**. Pilih dari pcs, kg, liter, dus, atau pak.
+   - **Stok Awal**. Gunakan tombol **+** dan **-**, atau ketik angkanya langsung.
+   - **Batas Minimum Stok**. Aplikasi akan memberi peringatan jika stok turun di bawah angka ini.
+   - **Foto Barang** (opsional, belum berfungsi pada versi ini).
+3. Ketuk **Simpan**. Barang baru langsung muncul di daftar dan muncul pesan "Barang berhasil ditambahkan".
+4. Ketuk **Batal** atau tombol kembali jika ingin membatalkan.
+> Jika **Nama Barang** dikosongkan, kolom berubah merah dan muncul pesan "Nama barang wajib diisi".
+ 
+### 5. Mencatat barang masuk (restok)
+1. Ketuk kartu barang di halaman Daftar Stok untuk membuka halaman **Detail & Mutasi Stok**.
+2. Ketuk tombol hijau **+ Barang Masuk**.
+3. Pada panel yang muncul, atur **Jumlah** dengan tombol **+** dan **-**, atau ketik angkanya.
+4. (Opsional) Isi **Catatan**, misalnya `Dari supplier A`.
+5. Ketuk **Simpan**. Muncul pesan "Stok berhasil diperbarui".
+6. Angka stok bertambah, dan catatan baru muncul di **Riwayat Mutasi** dengan tanda hijau (misalnya `+10 kg`).
+7. Jika stok kini sudah mencapai atau melewati batas minimum, badge **"Stok Menipis"** hilang otomatis.
+### 6. Mencatat barang keluar (penjualan atau pemakaian)
+1. Buka halaman detail barang, lalu ketuk tombol cokelat **- Barang Keluar**.
+2. Atur **Jumlah** dan isi **Catatan** bila perlu, misalnya `Penjualan harian`.
+3. Ketuk **Simpan**.
+4. Angka stok berkurang, dan catatan muncul di Riwayat Mutasi dengan tanda cokelat (misalnya `-4 kg`).
+5. Jika stok turun di bawah batas minimum, badge **"Stok Menipis"** muncul otomatis. Perubahan ini juga terlihat di Daftar Stok.
+> Jumlah barang keluar tidak boleh melebihi stok yang tersedia. Jika berlebih, muncul pesan "Jumlah melebihi stok tersedia" dan tombol **Simpan** dinonaktifkan sampai jumlahnya diperbaiki.
+ 
+Di panel yang sama, kamu bisa berpindah antara **Barang Masuk** dan **Barang Keluar** lewat tombol pilihan di bagian atas panel, tanpa menutupnya.
+ 
+### 7. Melihat riwayat mutasi
+Di halaman detail, gulir ke bagian **Riwayat Mutasi**. Setiap catatan menampilkan:
+- ikon panah (hijau untuk masuk, cokelat untuk keluar),
+- catatan yang kamu isi,
+- tanggal dan jam pencatatan,
+- jumlah perubahan stok.
+Aplikasi menampilkan maksimal 10 catatan terbaru.
+ 
+### 8. Mengubah batas minimum stok
+1. Di halaman detail barang, ketuk ikon **pensil** pada kartu barang.
+2. Ubah angka batas minimum dengan tombol **+** dan **-** atau ketik langsung.
+3. Ketuk **Simpan**. Status stok menipis langsung dihitung ulang berdasarkan batas yang baru.
+### 9. Menghapus barang
+1. Di halaman detail barang, ketuk ikon **tempat sampah** di pojok kanan atas.
+2. Pada dialog konfirmasi, ketuk **Hapus**. Barang beserta riwayat mutasinya akan dihapus, dan aplikasi kembali ke Daftar Stok.
+3. Jika semua barang sudah dihapus, Daftar Stok menampilkan "Belum ada barang".
+> **Perhatian:** data hanya disimpan di memori. Saat aplikasi ditutup sepenuhnya, data kembali ke data contoh awal.
+ 
+### Contoh alur penggunaan sehari-hari
+ 
+| Situasi | Langkah |
+|---|---|
+| Ada barang baru dari supplier | **+ Tambah Barang**, isi form, lalu **Simpan** |
+| Barang terjual | Buka barang, ketuk **- Barang Keluar**, isi jumlah, lalu **Simpan** |
+| Barang baru datang | Buka barang, ketuk **+ Barang Masuk**, isi jumlah, lalu **Simpan** |
+| Ingin tahu apa yang harus dibeli | Ketuk chip **Stok Menipis**, lalu lihat daftar barang yang perlu di-restok |
+| Ingin memeriksa pergerakan stok sebuah barang | Buka barang, lalu lihat **Riwayat Mutasi** |
+ 
+---
+
 
 ## Teknologi yang Digunakan
 
